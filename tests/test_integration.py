@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from nose.tools import assert_equal, assert_true, assert_almost_equal
+from distutils.spawn import find_executable
 from os.path import isdir,isfile
 from os import listdir
 import os
@@ -58,6 +59,11 @@ class TestCMD(object):
     def run_command_mpi(self,cov_file='coverage',comp_file='composition.fa',
                     tags=[],basename='nose_tmp_output/1'):
         call_string = "mpirun -np 8 concoct --coverage_file test_data/{0} --composition_file test_data/{1} --basename {2} -c 3,5,1 --no_total_coverage 2> /dev/null".format(cov_file,comp_file,basename)
+        try:
+            import mpi4py
+
+        except ImportError:
+            print >> sys.stderr, "No mpi4py module"
         for tag in tags:
             call_string += " " + tag
         self.c = 0 # Exit code
@@ -69,6 +75,7 @@ class TestCMD(object):
         except subprocess.CalledProcessError as exc:
             self.c = exc.returncode
             print >> sys.stderr, "You do not have mpi support"
+        self.cmpi=0
 
     def file_len(self,fh):
         i=0
@@ -84,20 +91,14 @@ class TestCMD(object):
         m = hashlib.md5() 
         m.update(content)
         return m.hexdigest()
- 
+
     def test_no_errors(self):
         self.run_command()
         assert_equal(self.c,0,
-                     msg = "Command exited with nonzero status")
-        run_mpi_test = True
-        try:
-            import mpi4py
-        except ImportError:
-            run_mpi_test = False
-        if run_mpi_test:
-            self.run_command_mpi()
-            assert_equal(self.c,0,
-                         msg = "Command exited with nonzero status")
+                     msg = "Serial command exited with nonzero status")
+        self.run_command_mpi()
+	assert_equal(self.cmpi,0,
+                     msg = "Mpitest failed")
 
     def test_directory_creation(self):
         self.run_command()
