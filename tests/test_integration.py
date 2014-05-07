@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from __future__ import print_function
+# Python 3.4 support
 try:
     from future_builtins import zip # if run in 2.6+ zip will behave as in 3.x
 except ImportError:
