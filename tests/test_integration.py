@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+from __future__ import print_function
+try:
+    from future_builtins import zip # if run in 2.6+ zip will behave as in 3.x
+except ImportError:
+    pass
 from nose.tools import assert_equal, assert_true, assert_almost_equal, nottest, assert_false
 from os.path import isdir,isfile
 from os import listdir
@@ -238,7 +243,7 @@ class TestCMD(object):
                     msg='Clustering outcomes were not the same with same seeds')
 
         #Should be equal to both above since default seed is 11
-	self.run_command(tags=["-f","11"])
+        self.run_command(tags=["-f","11"])
         first_time = os.path.getmtime(tmp_basename_dir+'/clustering_gt1000.csv')
         with open(tmp_basename_dir+'/clustering_gt1000.csv','r') as clustering:
             first_file=clustering.read()        
@@ -307,7 +312,6 @@ class TestCMD(object):
         self.run_command(cov_file='large_contigs/coverage_table.tsv', 
                          comp_file='large_contigs/contigs.fa',
                          basename=os.path.join(tmp_dir_path, 'large_contigs/'))
-
         validate_path = os.path.join(test_dir_path, '..', 'scripts', 'Validate.pl')
         clustering_reference = os.path.join(test_dir_path, 'test_data', 'large_contigs', 
                                             'clustering_gt1000_taxassign.csv')
@@ -320,12 +324,12 @@ class TestCMD(object):
         validate_so = subprocess.check_output(['perl', validate_path, 
                                                '--sfile={}'.format(clustering_reference),
                                                '--cfile={}'.format(clustering_file) ])
-        print "Results for large clustering file: "
-        print validate_so
-        
+        print("Results for large clustering file: ")
+        print(validate_so)
+        validate_so = validate_so.decode()
         headers = validate_so.split('\n')[0].split('\t')
         stats = validate_so.split('\n')[1].split('\t')
-        stats_dict = dict(zip(headers, stats))
+        stats_dict = dict(list(zip(headers, stats)))
 
         assert_true(float(stats_dict['AdjRand']) > 0.85,
                     msg=("Insufficient adjusted rand index "

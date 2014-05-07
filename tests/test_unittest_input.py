@@ -25,7 +25,7 @@ class TestInput(object):
     def test_generate_feature_mapping(self):
         feature_mapping, counter = generate_feature_mapping(2)
         assert_equal(counter, 10)
-        assert_equal(len(feature_mapping.keys()), 16)
+        assert_equal(len(list(feature_mapping.keys())), 16)
         assert_true('AA' in feature_mapping)
 
     def test_load_composition(self):

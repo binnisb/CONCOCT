@@ -4,9 +4,18 @@ import logging
 import numpy as np
 import pandas as p
 
-from itertools import product, tee, izip
+from itertools import product, tee
 
 from Bio import SeqIO
+
+try:
+    range = xrange # if run in 2.6+ range will behave as in 3.x
+except NameError:
+    pass
+try:
+    from future_builtins import zip # if run in 2.6+ zip will behave as in 3.x
+except ImportError:
+    pass
 
 def load_data(args):
     composition, contig_lengths, threshold_filter = load_composition(
@@ -79,7 +88,7 @@ def load_coverage(cov_file, contig_lengths, no_cov_normalization, add_total_cove
 
     # Adding pseudo count
     cov.ix[:,cov_range[0]:cov_range[1]] = cov.ix[:,cov_range[0]:cov_range[1]].add(
-            (100/contig_lengths),
+            (100.0/contig_lengths),
             axis='index')
 
     if not no_cov_normalization:
@@ -132,6 +141,6 @@ def generate_feature_mapping(kmer_len):
 def window(seq,n):
     els = tee(seq,n)
     for i,el in enumerate(els):
-        for _ in xrange(i):
+        for _ in range(i):
             next(el, None)
-    return izip(*els)
+    return zip(*els)

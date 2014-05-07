@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import sys
 from random import randint
@@ -86,7 +87,7 @@ def arguments():
     args  = parser.parse_args()
 
     if args.debug:
-        print >> sys.stderr, args
+        print(args, file=sys.stderr)
         sys.exit(0)
     # This can be changed to an or case when input of either case is supported individually
     if not (args.coverage_file or args.composition_file): 

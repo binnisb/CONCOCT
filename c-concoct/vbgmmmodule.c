@@ -31,6 +31,10 @@
 /*User includes*/
 #include "vbgmmmodule.h"
 
+/* Compile differently if python is Python3*/
+#if PY_MAJOR_VERSION >= 3
+#define IS_PY3K
+#endif
 
 static PyObject *vbgmm_fit(PyObject *self, PyObject *args)
 {
@@ -53,13 +57,34 @@ static PyMethodDef VbgmmMethods[] = {
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
+#if PY_MAJOR_VERSION >= 3
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "vbgmm",
+        NULL,
+        NULL,
+        VbgmmMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
 
+PyObject *
+PyInit_vbgmm(void)
+#else
 /* Python 2.x code */
 
 PyMODINIT_FUNC
 initvbgmm(void)
+#endif
 {
+#if PY_MAJOR_VERSION >= 3
+	PyObject *module = PyModule_Create(&moduledef);
+	return module;
+#else
     (void) Py_InitModule("vbgmm", VbgmmMethods);
+#endif
 }
 
 
