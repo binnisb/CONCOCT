@@ -2,8 +2,23 @@
 from setuptools import setup, find_packages
 import sys, os
 from distutils.core import Extension
+from setuptools.command.install import install as _install
 
 version = '0.4.0'
+
+def _post_install():
+    from subprocess import call
+    call(['echo','#######Will now install bash completion for python scripts'])
+    call(['activate-global-python-argcomplete', '--user'])
+    call(['echo','#######Will copy .bashrc to .bashrc.concoct.bak and add a line to .bashrc'])
+    call('cp ~/.bashrc ~/.bashrc.concoct.bak',shell=True)
+    call('echo "source ~/.bash_completion.d/python-argcomplete.sh" >> ~/.bashrc',shell=True)
+
+class install(_install):
+    def run(self):
+        _install.run(self)
+        self.execute(_post_install,(),
+             msg="############Running post install task##############")
 
 module1 = Extension('vbgmm',
         libraries =['gsl',  'gslcblas'],
@@ -13,9 +28,9 @@ module1 = Extension('vbgmm',
 setup(name='concoct',
       version=version,
       description="Clustering cONtigs with COverage and ComposiTion",
-      long_description="""Concoct is a program that combines three types of 
-      information - sequence composition, coverage across multiple sample, 
-      and read-pair linkage - to automatically bin metagenomic contigs 
+      long_description="""Concoct is a program that combines three types of
+      information - sequence composition, coverage across multiple sample,
+      and read-pair linkage - to automatically bin metagenomic contigs
       into genomes. """,
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='Python Scilifelab Metagenomics Binning Clustering Contig',
@@ -25,6 +40,7 @@ setup(name='concoct',
       maintainer_email='johannes.alneberg@scilifelab.se',
       url='https://github.com/BinPro/CONCOCT',
       license='FreeBSD',
+      cmdclass={'install':install},
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       scripts=["bin/concoct"],
       include_package_data=True,
@@ -36,6 +52,7 @@ setup(name='concoct',
                         'pandas>=0.11.0',
                         'biopython>=1.62b',
                         'scikit-learn>=0.13.1',
+                        'argcomplete>=0.6.7',
                         'nose==1.3.0',
                         'sphinx-rtd-theme>=0.1.6',
                         'Sphinx>=1.2.2'],
