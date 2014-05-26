@@ -19,7 +19,7 @@ before_install:
 install:
   - conda install --yes python=$TRAVIS_PYTHON_VERSION cython numpy scipy biopython pandas pip scikit-learn
   - pip install bcbio-gff
-  - python setup.py install
+  - pip install .
 # command to run tests
 script: nosetests
 
