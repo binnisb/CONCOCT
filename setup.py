@@ -8,17 +8,17 @@ version = '0.3.0'
 
 def _post_install():
     from subprocess import call
-    call(['echo','#######Will now install bash completion for python scripts'])
+    call(['echo','####### Will now install bash completion for python scripts'])
     call(['activate-global-python-argcomplete', '--user'])
-    call(['echo','#######Will copy .bashrc to .bashrc.concoct.bak and add a line to .bashrc'])
-    call('cp ~/.bashrc ~/.bashrc.concoct.bak',shell=True)
-    call('echo "source ~/.bash_completion.d/python-argcomplete.sh" >> ~/.bashrc',shell=True)
+    call(['echo','####### To activate bash completion for Concoct, you need ',
+          'to add the following line in your ~/.bashrc file: \n'])
+    call(['echo','source ~/.bash_completion.d/python-argcomplete.sh\n'])
 
 class install(_install):
     def run(self):
         _install.run(self)
         self.execute(_post_install,(),
-             msg="############Running post install task##############")
+             msg="\n############ Running post install task ##############\n")
 
 module1 = Extension('vbgmm',
         libraries =['gsl',  'gslcblas'],
@@ -28,9 +28,9 @@ module1 = Extension('vbgmm',
 setup(name='concoct',
       version=version,
       description="Clustering cONtigs with COverage and ComposiTion",
-      long_description="""Concoct is a program that combines three types of 
-      information - sequence composition, coverage across multiple sample, 
-      and read-pair linkage - to automatically bin metagenomic contigs 
+      long_description="""Concoct is a program that combines three types of
+      information - sequence composition, coverage across multiple sample,
+      and read-pair linkage - to automatically bin metagenomic contigs
       into genomes. """,
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='Python Scilifelab Metagenomics Binning Clustering Contig',
@@ -58,4 +58,3 @@ setup(name='concoct',
       # -*- Entry points: -*-
       """,
       )
-
