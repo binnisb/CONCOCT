@@ -5,6 +5,10 @@
 # This docker creates and sets up an Ubuntu environment with all
 # dependencies for CONCOCT installed.
 #
+# To build this image run (change USER to your index.docker.io user):
+# 
+# sudo docker build -t USER/concoct_base - < Dockerfile_concoct_base
+#
 
 FROM ubuntu:14.04
 MAINTAINER CONCOCT developer group, concoct-support@lists.sourceforge.net

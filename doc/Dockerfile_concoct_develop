@@ -4,6 +4,9 @@
 # This docker creates and sets up an Ubuntu environment with all
 # dependencies for CONCOCT installed.
 #
+# To build this image run (replace USER with your index.docker.io user):
+# sudo docker build -t USER/concoct_develop - < Dockerfile_concoct_develop
+#
 # To login to the docker with a shared directory from the host do:
 #
 # sudo docker run -v /my/host/shared/directory:/my/docker/location -i -t binnisb/concoct_develop /bin/bash
