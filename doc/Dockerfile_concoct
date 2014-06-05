@@ -1,0 +1,24 @@
+# Docker for CONCOCT (http://github.com/BinPro/CONCOCT)
+#
+# This docker creates and sets up an Ubuntu environment with all
+# dependencies for CONCOCT installed.
+#
+# To login to the docker with a shared directory from the host do:
+#
+# sudo docker run -v /my/host/shared/directory:/my/docker/location -i -t binnisb/concoct /bin/bash
+#
+
+FROM binnisb/concoct_base
+MAINTAINER CONCOCT developer group, concoct-support@lists.sourceforge.net
+
+# Install python dependencies and fetch and install CONCOCT
+RUN cd /opt;\
+
+    wget --no-check-certificate https://github.com/BinPro/CONCOCT/archive/0.3.1.tar.gz;\
+    tar xf 0.3.1.tar.gz;\
+    cd CONCOCT-0.3.1;\
+    python setup.py install
+
+ENV CONCOCT /opt/CONCOCT-0.3.1
+ENV CONCOCT_TEST /opt/Data/CONCOCT-test-data
+ENV CONCOCT_EXAMPLE /opt/Data/CONCOCT-complete-example
