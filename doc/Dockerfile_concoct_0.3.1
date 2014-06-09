@@ -3,16 +3,16 @@
 # This docker creates and sets up an Ubuntu environment with all
 # dependencies for CONCOCT installed.
 #
-# To build this image run (change USER to your index.docker.io user):
+# To build this image run:
 #
-# sudo docker build -t USER/concoct_0.3.1 - < Dockerfile_concoct_0.3.1
+# sudo docker build -t binpro/concoct_0.3.1 - < Dockerfile_concoct_0.3.1
 #
 # To login to the docker with a shared directory from the host do:
 #
-# sudo docker run -v /my/host/shared/directory:/my/docker/location -i -t binnisb/concoct_0.3.1 /bin/bash
+# sudo docker run -v /my/host/shared/directory:/my/docker/location -i -t binpro/concoct_0.3.1 /bin/bash
 #
 
-FROM binnisb/concoct_base
+FROM binpro/concoct_base
 MAINTAINER CONCOCT developer group, concoct-support@lists.sourceforge.net
 
 # Install python dependencies and fetch and install CONCOCT

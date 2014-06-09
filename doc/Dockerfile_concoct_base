@@ -5,9 +5,9 @@
 # This docker creates and sets up an Ubuntu environment with all
 # dependencies for CONCOCT installed.
 #
-# To build this image run (change USER to your index.docker.io user):
-# 
-# sudo docker build -t USER/concoct_base - < Dockerfile_concoct_base
+# To build this image run:
+#
+# sudo docker build -t binpro/concoct_base - < Dockerfile_concoct_base
 #
 
 FROM ubuntu:14.04
@@ -89,4 +89,3 @@ RUN cd /opt;\
     RREPO='"http://cran.rstudio.com/"';\
     printf "install.packages(\"ggplot2\", repo=$RREPO)\ninstall.packages(\"reshape\",repo=$RREPO)\ninstall.packages(\"gplots\",repo=$RREPO)\ninstall.packages(\"ellipse\",repo=$RREPO)\ninstall.packages(\"grid\",repo=$RREPO)\ninstall.packages(\"getopt\",repo=$RREPO)" > dep.R;\
     Rscript dep.R
-
