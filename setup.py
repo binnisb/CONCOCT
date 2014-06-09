@@ -13,6 +13,9 @@ def _post_install():
     call(['echo','####### To activate bash completion for Concoct, you need ',
           'to add the following line in your ~/.bashrc file: \n'])
     call(['echo','source ~/.bash_completion.d/python-argcomplete.sh\n'])
+    call(['echo','####### If this gives you errors in bash, you can try ',
+          'the following instead'])
+    call(['echo','eval "$(register-python-argcomplete concoct)"\n'])
 
 class install(_install):
     def run(self):
