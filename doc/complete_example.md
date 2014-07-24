@@ -7,7 +7,7 @@ Required software
 ----------------------
 To run the entire example you need to install all dependencies as stated in the [README dependencies](../README.md#dependencies). This includes all the optional dependencies. You can also look at [doc/Dockerfile](Dockerfile) to help you install these packages on your server.
 
-Another way to get everything set up is to use our full Docker image (binnisb/concoct_0.3.1) as suggested in the [README docker](../README.md#using-docker).
+Another way to get everything set up is to use our full Docker image (binpro/concoct_latest) as suggested in the [README docker](../README.md#using-docker).
 
 It is not required to run all steps. The output files for each step are in the test data repository. At the end of this example the results should be the same as the results in the corresponding test data repository: https://github.com/BinPro/CONCOCT-test-data/releases. The version numbers listed above are the ones used to generate the results in that repository. Using newer versions will probably not be a problem, but your results may be different in that case.
 
@@ -32,11 +32,11 @@ Move the test data that was downloaded and extracted (CONCOCT-test-data) to the 
 
 Now you want to execute the following command to log into our Docker image and to map the ```/HOST/path/to/Data``` to your image and the Data folder will be accessable in /opt/Data:
 
-    sudo docker run -v /HOST/path/to/Data:/opt/Data/ -i -t binnisb/concoct_0.3.1 bash
+    sudo docker run -v /HOST/path/to/Data:/opt/Data/ -i -t binpro/concoct_latest bash
 
 This will download the 2G image to your machine and then leaves you in a BASH shell. In the Docker imgage, the following environmental variables have been set. So if you have your folders set up differently in the steps above you need to alter these variables accordingly:
 
-    CONCOCT=/opt/CONCOCT-0.3.1
+    CONCOCT=/opt/CONCOCT_latest
     CONCOCT_TEST=/opt/Data/CONCOCT-test-data
     CONCOCT_EXAMPLE=/opt/Data/CONCOCT-complete-example
 
@@ -95,7 +95,7 @@ The following command is to be executed in the ```$CONCOCT_EXAMPLE``` dir you cr
     cd $CONCOCT_EXAMPLE
     bowtie2-build contigs/velvet_71_c10K.fa contigs/velvet_71_c10K.fa
     
-Then create a folder map. The parallel command creates a folder for each sample, and runs ```map-bowtie2-markduplicates.sh``` for each sample:
+Then run this for loop, which for each sample creates a folder and runs ```map-bowtie2-markduplicates.sh```:
 
     for f in $CONCOCT_TEST/reads/*_R1.fa; do
         mkdir -p map/$(basename $f);
@@ -107,7 +107,7 @@ Then create a folder map. The parallel command creates a folder for each sample,
 The parameters used for `map-bowtie2-markduplicates.sh` are:
 
 * `-c` option to compute coverage histogram with genomeCoverageBed
-* `-t` option is number of threads (1 since we are already running the ```map-bowtie2-markduplicates.sh``` script in parallel.
+* `-t` option is number of threads
 * `-p` option is the extra parameters given to bowtie2. In this case `-f`.
 
 The five arguments are:
