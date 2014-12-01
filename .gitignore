@@ -13,3 +13,5 @@ build/*
 .screenrc
 #ignore test folder
 tests/nose_tmp_output
+
+.idea
