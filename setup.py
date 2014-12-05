@@ -21,8 +21,8 @@ To be done""",
       scripts=["bin/concoct"],
       include_package_data=True,
       zip_safe=False,
-      install_requires=['argparse==1.2.1',
-                        'nose==1.3.0'],
+      install_requires=['argparse>=1.2.1',
+                        'nose>=1.3.0'],
       entry_points="""
       # -*- Entry points: -*-
       """,
