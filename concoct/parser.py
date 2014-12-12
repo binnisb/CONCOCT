@@ -155,7 +155,7 @@ def arguments():
                              'You can specify 0 for random seed. The default seed '
                              'is 11.'))
     parser.add_argument('--covariance_type', default="full", 
-                        choices=['full','diag'], 
+                        choices=['full','diag','tied','spherical'], 
                         help=("Choose the shape of the covariance matrix for "
                               "the GMM:s used in clustering."))
 
